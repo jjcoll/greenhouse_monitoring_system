@@ -1,6 +1,7 @@
 from flask import render_template, request, json
 from json.decoder import JSONDecodeError
-from app import app
+from app.models import GreenhouseSensorData
+from app import app, db
 
 
 @app.route("/")
@@ -9,17 +10,19 @@ def home_page():
     return render_template("index.html")
 
 
-@app.route("/sensor-data/<greenhouse_id>", methods=["POST"])
-def receive_sensor_data(greenhouse_id):
+@app.route("/sensor-data/<greenhouse_id>/<sensor_id>", methods=["POST"])
+def receive_sensor_data(greenhouse_id, sensor_id):
 
     print(greenhouse_id)
 
     if request.is_json:
         # Access the raw data from the POST request
         raw_data = request.data
-        # Decode the byte string to a regular string
-        data_string = raw_data.decode("utf-8")
+        print(raw_data)
         try:
+            print(greenhouse_id, sensor_id)
+            # Decode the byte string to a regular string
+            data_string = raw_data.decode("utf-8")
             # deserializing string
             data_dict = json.loads(data_string)
             print(data_dict)
@@ -29,10 +32,31 @@ def receive_sensor_data(greenhouse_id):
             dht_temp = data_dict.get("dht_temp")
             dht_humidity = data_dict.get("dht_humidity")
 
+            if dht_humidity == "-1" or dht_temp == "-1":
+                raise ValueError("Invalid readings for DHT sensor")
+
+            # adding data to database
+            data_to_add = GreenhouseSensorData(
+                gh_id=greenhouse_id,
+                sensor_id=sensor_id,
+                dht_temp=dht_temp,
+                dht_humidity=dht_humidity,
+                ldr_lux=ldr_lux,
+                ntc_temp=ntc_temp,
+            )
+
+            db.session.add(data_to_add)
+            db.session.commit()
+            return "ok", 200
+
         except JSONDecodeError as e:
             print(f"JSON decoding failed: {e}")
-        except TypeError as e:
-            print(f"TypeError occurred: {e}")
-        return "ok", 200
+            return "Bad request, did not recieve expected JSON data", 400
+        except ValueError as e:
+            print(f"Value Error: {e}")
+            return "Bad request, did not recieve expected JSON data", 400
+        # except:
+        #     print(f"Error occurred")
+        #     return "Bad request, did not recieve expected JSON data", 400
 
     return "Invalid request", 400

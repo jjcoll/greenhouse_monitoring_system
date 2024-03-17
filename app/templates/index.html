@@ -5,6 +5,20 @@ Home Page
 {% endblock %}
 
 {% block content %}
-<h1>Flask server</h1>
-<p>This is a flask server</p>
+<p>Green House 1</p>
+<!-- <img src="{{ url_for('static', filename='img/Greenhouse_1.svg') }}" alt=""> -->
+<object data="{{ url_for('static', filename='img/gh_1.svg') }}" id="g1"></object>
+<ul>
+    <li>Sensor 1</li>
+    <li>Sensor 2</li>
+    <li>Sensor 3</li>
+    <li>Sensor 4</li>
+    <li>Sensor 5</li>
+    <li>Sensor 6</li>
+    <li>Sensor 7</li>
+    <li>Sensor 8</li>
+    <li>Sensor 9</li>
+</ul>
+
+<script src="{{url_for('static', filename='js/sensors.js')}}"></script>
 {% endblock %}
