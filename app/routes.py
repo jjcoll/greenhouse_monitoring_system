@@ -90,3 +90,9 @@ def get_sensor_data(greenhouse_id, sensor_id):
             return jsonify({"display": in_range}), 200
     else:
         return jsonify({"display": "none"}), 400
+
+
+@app.route("/monitor/<greenhouse_id>/<sensor_id>")
+def monitor(greenhouse_id, sensor_id):
+
+    return render_template("monitor.html", g_id=greenhouse_id, s_id=sensor_id)

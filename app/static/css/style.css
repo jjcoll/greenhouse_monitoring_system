@@ -16,6 +16,10 @@
     /* Optional: Adds a border around the square */
 }
 
+.sensor_bg {
+    cursor: pointer;
+}
+
 .red {
     background-color: #ff0000;
 }

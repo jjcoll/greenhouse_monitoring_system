@@ -3,6 +3,9 @@ const refreshBtn = document.querySelector('.refresh-btn')
 
 const server_ip = '145.93.148.94'
 
+
+
+
 const updateSensors = () => {
     const ghsSvgs = document.querySelectorAll('.greenhouse')
     ghsSvgs.forEach(svg => {
@@ -32,6 +35,19 @@ const updateSensors = () => {
 
 g1.addEventListener('load', () => {
     updateSensors()
+
+    // add sensor event listeners 
+    document.querySelectorAll('.greenhouse').forEach(greenhouse => {
+        const sensors = greenhouse.contentDocument.querySelectorAll('.sensor_bg')
+
+        sensors.forEach(sensor => {
+            sensor.style.cursor = 'pointer'
+            sensor.addEventListener('click', (e) => {
+                // console.log('Print', greenhouse.id, sensor.id)
+                window.location.href = `http://${server_ip}:1234/monitor/${greenhouse.id}/${sensor.id}`
+            })
+        })
+    })
 })
 
 refreshBtn.addEventListener('click', (e) => {
