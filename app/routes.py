@@ -1,6 +1,7 @@
 from flask import render_template, request, json, jsonify
 from json.decoder import JSONDecodeError
 from app.models import GreenhouseSensorData
+from datetime import datetime, timedelta
 from app import app, db
 
 
@@ -70,16 +71,22 @@ def get_sensor_data(greenhouse_id, sensor_id):
         .first()
     )
 
-    print(f"record: {latest_record.dht_temp}")
-
+    # check if data is available for current gh and sensor
     if latest_record:
         temp = latest_record.dht_temp
         humidity = latest_record.dht_humidity
 
-        if temp < 20 or temp > 30 or humidity < 30 or humidity > 40:
-            in_range = False
+        date = latest_record.date
+        five_min_ago = datetime.now() - timedelta(minutes=1)
+        if date < five_min_ago:
+            # record is too old
+            return jsonify({"display": "blue"}), 200
         else:
-            in_range = True
-        return jsonify({"display": in_range}), 200
+            # record is good
+            if temp < 20 or temp > 30 or humidity < 30 or humidity > 40:
+                in_range = "red"
+            else:
+                in_range = "green"
+            return jsonify({"display": in_range}), 200
     else:
-        return jsonify({"error": "No data found for the given ids"}), 400
+        return jsonify({"display": "none"}), 400

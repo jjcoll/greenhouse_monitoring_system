@@ -5,23 +5,41 @@ Home Page
 {% endblock %}
 
 {% block content %}
-<p>Green House 1</p>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <!-- <img src="{{ url_for('static', filename='img/Greenhouse_1.svg') }}" alt=""> -->
-<object data="{{ url_for('static', filename='img/gh_1.svg') }}" id="g1"></object>
-<object data="{{ url_for('static', filename='img/gh_2.svg') }}" id="g2"></object>
+<div>
+    <p>Legend: </p>
+    <div class="legend-item">
+        <div class="box grey"></div>
+        <p>No data available</p>
+    </div>
+    <div class="legend-item">
+        <div class="box green"></div>
+        <p>ideal conditions</p>
+    </div>
+    <div class="legend-item">
+        <div class="box red"></div>
+        <p>non-ideal conditions</p>
+    </div>
+    <div class="legend-item">
+        <div class="box blue"></div>
+        <p>not collecting data anymore</p>
+    </div>
+</div>
+<div class="greenhouse-container">
+    <div>
+        <p>Green House 1</p>
+        <object data="{{ url_for('static', filename='img/gh_1.svg') }}" id="g1" class="greenhouse"></object>
+    </div>
+    <div>
+
+        <p>Green House 2</p>
+        <object data="{{ url_for('static', filename='img/gh_2.svg') }}" id="g2" class="greenhouse"></object>
+    </div>
+</div>
+
 <br>
 <button class="refresh-btn">refresh</button>
-<ul>
-    <li>Sensor 1</li>
-    <li>Sensor 2</li>
-    <li>Sensor 3</li>
-    <li>Sensor 4</li>
-    <li>Sensor 5</li>
-    <li>Sensor 6</li>
-    <li>Sensor 7</li>
-    <li>Sensor 8</li>
-    <li>Sensor 9</li>
-</ul>
 
 <script src="{{url_for('static', filename='js/sensors.js')}}"></script>
 {% endblock %}

@@ -1,0 +1,33 @@
+.greenhouse-container {
+    display: flex;
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.box {
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    /* Optional: Adds a border around the square */
+}
+
+.red {
+    background-color: #ff0000;
+}
+
+.blue {
+    background-color: #0000ff;
+}
+
+.green {
+    background-color: #00ff00;
+}
+
+.grey {
+    background-color: #ced4da;
+}
