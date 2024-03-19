@@ -5,5 +5,33 @@
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/monitor.css') }}">
+
+<div class="chart-container">
+    <canvas id="chart"></canvas>
+</div>
+
 <p>This is the page for sensor {{s_id}} of greenhouse {{g_id}}</p>
+<table>
+    <tr>
+        <th>DHT humidity</th>
+        <th>DHT Temperature</th>
+        <th>NTC Temperature</th>
+        <th>LDR Lux</th>
+        <th>Date</th>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{i.dht_humidity}}</td>
+        <td>{{i.dht_temp}}</td>
+        <td>{{i.ntc_temp}}</td>
+        <td>{{i.ldr_lux}}</td>
+        <td>{{i.date}}</td>
+    </tr>
+    {% endfor %}
+
+
+</table>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{url_for('static', filename='js/monitor.js')}}"></script>
 {% endblock %}

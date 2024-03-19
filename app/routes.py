@@ -95,4 +95,15 @@ def get_sensor_data(greenhouse_id, sensor_id):
 @app.route("/monitor/<greenhouse_id>/<sensor_id>")
 def monitor(greenhouse_id, sensor_id):
 
-    return render_template("monitor.html", g_id=greenhouse_id, s_id=sensor_id)
+    results = (
+        GreenhouseSensorData.query.filter_by(gh_id=greenhouse_id, sensor_id=sensor_id)
+        .order_by(GreenhouseSensorData.date.desc())
+        .all()
+    )
+
+    for i in results:
+        print(i)
+
+    return render_template(
+        "monitor.html", g_id=greenhouse_id, s_id=sensor_id, data=results
+    )

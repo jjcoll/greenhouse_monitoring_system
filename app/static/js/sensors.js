@@ -1,7 +1,7 @@
 const g1 = document.querySelector('#g1')
 const refreshBtn = document.querySelector('.refresh-btn')
 
-const server_ip = '145.93.148.94'
+const server_ip = '145.116.37.87'
 
 
 
